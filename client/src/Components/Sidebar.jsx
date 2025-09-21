@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../Context/AppContext'
 import { assets } from '../assets/assets'
+import moment from 'moment'
 
 const Sidebar = () => {
-  const { chats, setselectedChat, theme, setTheme, user } = useAppContext()
+  const { chats, setselectedChat, theme, setTheme, user,navigate } = useAppContext()
   const [search, setSearch] = useState('')
 
   return (
@@ -34,13 +35,24 @@ const Sidebar = () => {
                   {chat.messages.length > 0 ? chat.messages[0].content.slice(0, 32) : chat.name}
                 </p>
                 <p className='text-xs text-gray-500 dark:text-[#B1A6C0]'>
-                  {chat.updatedAt}
+                  {moment(chat.updatedAt).fromNow()}
                 </p>
               </div>
               <img src={assets.bin_icon} className='hidden group-hover:block w-4 cursor-pointer not-dark:invert' alt="" />
             </div>
+            
           ))
         }
+      </div>
+        {/* {community images} */}
+
+      <div onClick={()=>{navigate('/community')}} className='flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all'>
+        <img src= {assets.gallery_icon} className='w-4.5 not-dark:invert' alt="" />
+        <div className='flex flex-col text-sm'>
+          <p>
+            Community Images
+          </p>
+        </div>
       </div>
 
     </div>
