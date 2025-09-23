@@ -3,18 +3,18 @@ import { useAppContext } from '../Context/AppContext'
 import { assets } from '../assets/assets'
 import moment from 'moment'
 
-const Sidebar = () => {
+const Sidebar = ({isMenuOpen, setIsMenuOpen}) => {
   const { chats, setselectedChat, theme, setTheme, user, navigate } = useAppContext()
   const [search, setSearch] = useState('')
 
   return (
-    <div className="flex flex-col h-screen min-w-72 p-5 
+    <div className={`flex flex-col h-screen min-w-72 p-5 
         dark:bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 
         border-r border-[#80609F]/30 backdrop-blur-3xl 
-        transition-all duration-500 max-md:absolute left-0 z-1">
+        transition-all duration-500 max-md:absolute left-0 z-1 ${!isMenuOpen && 'max-md:-translate-x-full'}`}>
 
       {/* === TOP SECTION === */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 min-h-0">
         {/* logo */}
         <img
           src={theme === 'dark' ? assets.logo_full : assets.logo_full_dark}
@@ -40,8 +40,9 @@ const Sidebar = () => {
         </div>
 
         {/* recent chats */}
+        {/* recent chats */}
         {chats.length > 0 && <p className="mt-4 text-sm">Recent Chats</p>}
-        <div className="mt-2 gap-2 flex flex-col overflow-y-auto">
+        <div className="mt-2 gap-2 flex flex-col overflow-y-auto max-h-48 pr-1 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
           {chats
             .filter((chat) =>
               chat.messages[0]
@@ -73,6 +74,7 @@ const Sidebar = () => {
               </div>
             ))}
         </div>
+
       </div>
 
       {/* === BOTTOM SECTION === */}
@@ -107,7 +109,7 @@ const Sidebar = () => {
         </div>
 
         {/* dark mode toggle */}
-        <div className="flex items-center gap-2 p-3 border border-gray-300 dark:border-white/15 rounded-md">
+        <div className="flex items-center justify-between gap-2 p-3 border border-gray-300 dark:border-white/15 rounded-md">
           <div className="flex items-center gap-2 text-sm">
             <img src={assets.theme_icon} className="w-4 not-dark:invert" alt="" />
             <p>Dark Mode</p>
@@ -115,7 +117,7 @@ const Sidebar = () => {
           <label className="relative inline-flex items-center cursor-pointer ml-auto">
             <input
               type="checkbox"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               checked={theme === 'dark'}
               className="sr-only peer"
             />
@@ -123,7 +125,28 @@ const Sidebar = () => {
             <span className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform peer-checked:translate-x-4"></span>
           </label>
         </div>
+
+        {/* user account */}
+        <div className="flex items-center gap-2 p-3 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer group">
+          <img src={assets.user_icon} className="w-7 rounded-full" alt="" />
+          <p className="flex-1 text-sm dark:text-primary truncate">
+            {user ? user.name : 'Login your account'}
+          </p>
+          {user && (
+            <img
+              src={assets.logout_icon}
+              className="h-5 cursor-pointer hidden not-dark:invert group-hover:block"
+              alt="logout"
+            />
+          )}
+        </div>
       </div>
+
+      <img onClick={()=>setIsMenuOpen(false)} src={assets.close_icon} className='absolute top-3 right-3 w-5 h-5 cursor-pointer md:hidden not-dark:invert' alt="" />
+
+
+
+
     </div>
   )
 }
