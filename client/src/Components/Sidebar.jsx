@@ -19,8 +19,7 @@ const Sidebar = ({isMenuOpen, setIsMenuOpen}) => {
         <img
           src={theme === 'dark' ? assets.logo_full : assets.logo_full_dark}
           alt=""
-          className="w-full max-w-48"
-        />
+          className="w-full max-w-48"/>
 
         {/* new chat button */}
         <button className="flex justify-center items-center w-full py-2 mt-10 text-white bg-gradient-to-r from-[#A456F7] to-[#3D81F6] text-sm rounded-md cursor-pointer">
@@ -52,7 +51,7 @@ const Sidebar = ({isMenuOpen, setIsMenuOpen}) => {
                 : chat.name.toLowerCase().includes(search.toLowerCase())
             )
             .map((chat) => (
-              <div
+              <div onClick={()=>{navigate('/'); setselectedChat(chat); setIsMenuOpen(false)}}
                 key={chat._id}
                 className="p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md cursor-pointer flex justify-between group"
               >
@@ -82,7 +81,7 @@ const Sidebar = ({isMenuOpen, setIsMenuOpen}) => {
         {/* community */}
         <div
           onClick={() => {
-            navigate('/community')
+            navigate('/community');setIsMenuOpen(false)
           }}
           className="flex items-center gap-2 p-3 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
@@ -95,7 +94,7 @@ const Sidebar = ({isMenuOpen, setIsMenuOpen}) => {
         {/* credits */}
         <div
           onClick={() => {
-            navigate('/credits')
+            navigate('/credits');setIsMenuOpen(false)
           }}
           className="flex items-center gap-2 p-3 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
